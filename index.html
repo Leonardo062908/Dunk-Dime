@@ -3,61 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <title>Dunk & Dime</title>
-    <script src="js/app.js" defer></script>
+    <script src="./js/app.js" defer></script>
   </head>
   <body>
-    <div>
-      <h1>Dunk & Dime</h1>
-      <h2>O site mais hooper que você verá!</h2>
-      <p>Nesta quadra você encontra as melhores jogadas de todos os tempos!</p>
-      <img src="imagens/jamorantdunk.jpg" alt="Imagem do Ja Morant dunkando" />
-      <h2>Validação</h2>
-      <p class="valida"></p>
-      <div>
-        <form
-          action="#"
-          method="get"
-          onsubmit="return validarLogin(idEmail, idSenha)"
-        >
-          <fieldset>
-            <legend>Login</legend>
-            <div>
-              <label for="idEmail">Email</label>
-              <input
-                type="text"
-                name="txtEmail"
-                id="idEmail"
-                placeholder="Digite seu email"
-                required
-              />
-            </div>
-            <div>
-              <label for="idSenha">Senha</label>
-              <input
-                type="password"
-                name="txtSenha"
-                id="idSenha"
-                placeholder="Digite sua senha"
-              />
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                name="txtLembrar"
-                id="idLembrar"
-                value="lembrete"
-                checked
-              />
-              <label for="idLembrar">Lembrar-me</label>
-            </div>
-            <div>
-              <button type="submit">Entrar</button>
-            </div>
-          </fieldset>
-        </form>
-      </div>
+    <div class="container-index">
+      <header>
+        <h1 id="view-user"></h1>
+        <button id="logout-user">Sair</button>
+      </header>
+      <main>
+        <h2>Dunk & Dime</h2>
+        <h3>O site mais hooper que você verá!</h3>
+        <p>
+          Nesta quadra você encontra as melhores jogadas de todos os tempos!
+        </p>
+        <img
+          src="imagens/jamorantdunk.jpg"
+          alt="Imagem do Ja Morant dunkando"
+        />
+      </main>
     </div>
   </body>
 </html>

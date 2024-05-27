@@ -1,161 +1,105 @@
-function FormLogin({ onLogin }) {
-  const [email, setEmail] = React.useState("");
-  const [senha, setSenha] = React.useState("");
-  const [errorMessage, setErrorMessage] = React.useState("");
+let listaUsuarios = [
+  {
+    nomeCompleto: "João das Couves",
+    emailUsuario: "jo@com",
+    senhaUsuario: "123",
+  },
+  {
+    nomeCompleto: "Mário Willians",
+    emailUsuario: "mo@com",
+    senhaUsuario: "123",
+  },
+  { nomeCompleto: "Maria Linha", emailUsuario: "ma@com", senhaUsuario: "123" },
+  { nomeCompleto: "Rei Luizinho", emailUsuario: "re@com", senhaUsuario: "123" },
+  { nomeCompleto: "Duley Fred", emailUsuario: "du@com", senhaUsuario: "123" },
+];
 
-  function handleSubmit(event) {
-    event.preventDefault();
+function validarLogin(event) {
+  event.preventDefault();
 
-    if (validarLogin(email, senha)) {
-      onLogin(email, senha);
-      exibirMensagemSucesso();
+  const emailInput = document.getElementById("email");
+  const senhaInput = document.getElementById("senha");
+  const errorMessage = document.querySelector(".error-message");
+
+  for (let x = 0; x < listaUsuarios.length; x++) {
+    if (
+      listaUsuarios[x].emailUsuario === emailInput.value &&
+      listaUsuarios[x].senhaUsuario === senhaInput.value
+    ) {
+      localStorage.setItem("usuario-logado", JSON.stringify(listaUsuarios[x]));
+      console.log("Usuário logado:", listaUsuarios[x]);
       window.location.href = "index.html";
-    } else {
-      setErrorMessage("Email ou senha inválidos.");
-      exibirMensagemErro("Email ou senha inválidos.");
+      return false;
     }
   }
 
-  return (
-    <form onSubmit={handleSubmit} className="login-form">
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Senha"
-        value={senha}
-        onChange={(e) => setSenha(e.target.value)}
-        required
-      />
-      <button type="submit">Entrar</button>
-      <p className="error-message">{errorMessage}</p>
-    </form>
-  );
-}
-
-function PaginaDeLogin({ onLogin }) {
-  return (
-    <div className="container-login">
-      <h1>Bem-vindo ao Dunk & Dime</h1>
-      <FormLogin onLogin={onLogin} />
-    </div>
-  );
-}
-
-function PaginaInicial({ usuario, onLogout }) {
-  function handleLogout() {
-    sessionStorage.removeItem("usuario");
-    onLogout();
-    window.location.href = "login.html";
-  }
-
-  return (
-    <div className="container-index">
-      <header>
-        <h1>Olá, {usuario.nome}!</h1>
-        <button onClick={handleLogout}>Sair</button>
-      </header>
-      <main>
-        <h2>Dunk & Dime</h2>
-        <h3>O site mais hooper que você verá!</h3>
-        <p>
-          Nesta quadra você encontra as melhores jogadas de todos os tempos!
-        </p>
-        <img
-          src="./imagens/jamorantdunk.jpg"
-          alt="Imagem do Ja Morant dunkando"
-        />
-      </main>
-    </div>
-  );
-}
-
-function validarLogin(email, senha) {
-  // Lógica de validação de login
-  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [
-    { nome: "João", email: "joao@example.com", senha: "123456" },
-    { nome: "Leonardo", email: "leonardo@gmail.com", senha: "abcdef" },
-  ];
-
-  const usuario = usuarios.find((u) => u.email === email && u.senha === senha);
-
-  if (usuario) {
-    sessionStorage.setItem("usuario", JSON.stringify(usuario));
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function exibirMensagemSucesso() {
-  const mensagemSucesso = document.createElement("div");
-  mensagemSucesso.classList.add("success-message");
-  mensagemSucesso.textContent = "Login realizado com sucesso!";
-  document.body.appendChild(mensagemSucesso);
+  errorMessage.classList.add("erro");
+  errorMessage.textContent = "Usuário ou senha incorretos.";
 
   setTimeout(() => {
-    mensagemSucesso.remove();
+    errorMessage.classList.remove("erro");
+    errorMessage.textContent = "";
   }, 5000);
-}
 
-function exibirMensagemErro(mensagem) {
-  const mensagemErro = document.createElement("div");
-  mensagemErro.classList.add("error-message");
-  mensagemErro.textContent = mensagem;
-  document.body.appendChild(mensagemErro);
-
-  setTimeout(() => {
-    mensagemErro.remove();
-  }, 5000);
+  return false;
 }
 
 function App() {
-  const [usuario, setUsuario] = React.useState(null);
+  const usuario = JSON.parse(localStorage.getItem("usuario-logado"));
 
-  // Verificar se há usuário armazenado no sessionStorage
-  React.useEffect(() => {
-    const usuarioSessao = JSON.parse(sessionStorage.getItem("usuario"));
-    if (usuarioSessao) {
-      setUsuario(usuarioSessao);
-    } else {
-      // Verificar se há usuários armazenados no localStorage
-      const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [
-        { nome: "João", email: "joao@example.com", senha: "123456" },
-        { nome: "Maria", email: "maria@example.com", senha: "abcdef" },
-      ];
-
-      // Armazenar os usuários no localStorage
-      localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    }
-  }, []);
-
-  function autenticarUsuario(email, senha) {
-    if (validarLogin(email, senha)) {
-      const usuario = usuarios.find((u) => u.email === email);
-      setUsuario(usuario);
-      exibirMensagemSucesso();
-      window.location.href = "index.html";
-    } else {
-      exibirMensagemErro("Email ou senha inválidos.");
-    }
+  if (usuario) {
+    return (
+      <div className="container-index">
+        <header>
+          <h1>Olá, {usuario.nomeCompleto}!</h1>
+          <a href="login.html">Sair</a>
+        </header>
+        <main>
+          <h2>Dunk & Dime</h2>
+          <h3>O site mais hooper que você verá!</h3>
+          <p>
+            Nesta quadra você encontra as melhores jogadas de todos os tempos!
+          </p>
+          <img
+            src="imagens/jamorantdunk.jpg"
+            alt="Imagem do Ja Morant dunkando"
+          />
+        </main>
+      </div>
+    );
+  } else {
+    return (
+      <div className="container-login">
+        <h1>Bem-vindo ao Dunk & Dime</h1>
+        <form id="login-form" onsubmit="return validarLogin(event)">
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Digite seu email"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="senha">Senha</label>
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              placeholder="Digite sua senha"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <button type="submit">Entrar</button>
+          </div>
+          <p className="error-message"></p>
+        </form>
+      </div>
+    );
   }
-
-  function deslogarUsuario() {
-    sessionStorage.removeItem("usuario");
-    setUsuario(null);
-    window.location.href = "login.html";
-  }
-
-  return usuario ? (
-    <PaginaInicial usuario={usuario} onLogout={deslogarUsuario} />
-  ) : (
-    <PaginaDeLogin onLogin={autenticarUsuario} />
-  );
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
