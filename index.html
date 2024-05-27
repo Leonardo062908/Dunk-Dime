@@ -2,27 +2,62 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dunk & Dime</title>
-    <script
-      crossorigin
-      src="https://unpkg.com/react@18/umd/react.development.js"
-    ></script>
-    <script
-      crossorigin
-      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
-    ></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script type="text/babel" src="app.js"></script>
     <link rel="stylesheet" href="styles.css" />
+    <title>Dunk & Dime</title>
+    <script src="js/app.js" defer></script>
   </head>
   <body>
-    <h1>Dunk & Dime</h1>
-    <h2>O site mais hooper que você verá!</h2>
-    <p>Nesta quadra você encontra as melhores jogadas de todos os tempos!</p>
-    <img src="./imagens/jamorantdunk.jpg" alt="Imagem do Ja Morant dunkando" />
-
-    <div id="root"></div>
+    <div>
+      <h1>Dunk & Dime</h1>
+      <h2>O site mais hooper que você verá!</h2>
+      <p>Nesta quadra você encontra as melhores jogadas de todos os tempos!</p>
+      <img src="imagens/jamorantdunk.jpg" alt="Imagem do Ja Morant dunkando" />
+      <h2>Validação</h2>
+      <p class="valida"></p>
+      <div>
+        <form
+          action="#"
+          method="get"
+          onsubmit="return validarLogin(idEmail, idSenha)"
+        >
+          <fieldset>
+            <legend>Login</legend>
+            <div>
+              <label for="idEmail">Email</label>
+              <input
+                type="text"
+                name="txtEmail"
+                id="idEmail"
+                placeholder="Digite seu email"
+                required
+              />
+            </div>
+            <div>
+              <label for="idSenha">Senha</label>
+              <input
+                type="password"
+                name="txtSenha"
+                id="idSenha"
+                placeholder="Digite sua senha"
+              />
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                name="txtLembrar"
+                id="idLembrar"
+                value="lembrete"
+                checked
+              />
+              <label for="idLembrar">Lembrar-me</label>
+            </div>
+            <div>
+              <button type="submit">Entrar</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
